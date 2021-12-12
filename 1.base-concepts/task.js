@@ -18,7 +18,7 @@ function solveEquation(a, b, c) {
     arr[0] = x1;
     arr[1] = x2;
 
-  } 
+  }
 
   // код для задачи №1 писать здесь
   return arr; // array
@@ -58,21 +58,25 @@ function calculateTotalMortgage(percent, contribution, amount, date) {
 
   console.log(monthlyPay);
   totalAmount = monthlyPay * payPeriod;
-  console.log(totalAmount.toFixed(2));
+  totalAmount = totalAmount.toFixed(2);
+  totalAmount = parseFloat(totalAmount);
 
-  if (percent > 0 && contribution >= 0 && amount >= 0) {
 
-    return (totalAmount.toFixed(2));
+  if (isNaN(percent)) {
+    return (`Параметр "Процентная ставка" содержит неправильное значение "${percent}"`)
 
-  } else {
-    return (`"введенные данные  некорректны "`)
+  };
+
+  if (isNaN(contribution)) {
+    return (`Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`)
+
+  };
+
+  if (isNaN(amount)) {
+    return (`Параметр "Общая стоимость" содержит неправильное значение "${amount}"`)
+
   };
 
 
-
-
-
-
-
-  return totalAmount.toFixed(2);
-}
+  return totalAmount;
+};
