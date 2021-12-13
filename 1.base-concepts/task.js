@@ -48,19 +48,6 @@ console.log(solveEquation(1, 5, 4))
 function calculateTotalMortgage(percent, contribution, amount, date) {
   let totalAmount;
   let currentDate = new Date();
-  let payPeriod = (date.getFullYear() - currentDate.getFullYear()) * 12 - (currentDate.getMonth() - date.getMonth());
-
-  console.log(payPeriod);
-
-  let returnAmount = amount - contribution;
-  let realPercent = percent / 100 / 12;
-  let monthlyPay = returnAmount * (realPercent + (realPercent / (((1 + realPercent) ** payPeriod) - 1)));
-
-  console.log(monthlyPay);
-  totalAmount = monthlyPay * payPeriod;
-  totalAmount = totalAmount.toFixed(2);
-  totalAmount = parseFloat(totalAmount);
-
 
   if (isNaN(percent)) {
     return (`Параметр "Процентная ставка" содержит неправильное значение "${percent}"`)
@@ -76,6 +63,22 @@ function calculateTotalMortgage(percent, contribution, amount, date) {
     return (`Параметр "Общая стоимость" содержит неправильное значение "${amount}"`)
 
   };
+  
+  let payPeriod = (date.getFullYear() - currentDate.getFullYear()) * 12 - (currentDate.getMonth() - date.getMonth());
+
+  console.log(payPeriod);
+
+  let returnAmount = amount - contribution;
+  let realPercent = percent / 100 / 12;
+  let monthlyPay = returnAmount * (realPercent + (realPercent / (((1 + realPercent) ** payPeriod) - 1)));
+
+  console.log(monthlyPay);
+  totalAmount = monthlyPay * payPeriod;
+  totalAmount = totalAmount.toFixed(2);
+  totalAmount = parseFloat(totalAmount);
+
+
+  
 
 
   return totalAmount;
