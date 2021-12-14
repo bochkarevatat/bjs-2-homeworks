@@ -54,5 +54,10 @@ function makeWork(arrOfArr, func) {
 
 // Задание 3
 function worker2(arr) {
-  // Ваш код
-}
+  let max, min, odds;
+  max = Math.max.apply(Math, arr);
+  min = Math.min.apply(Math, arr);
+  odds = Math.abs(max - min);
+  // console.log(odds); 
+  return odds;
+};
