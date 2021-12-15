@@ -33,7 +33,7 @@ function worker(arr) {
 
   return sum;
 }
-console.log(sum)
+
 
 function makeWork(arrOfArr, func) {
   let max = 0;
@@ -50,7 +50,7 @@ function makeWork(arrOfArr, func) {
 
   }
   return max;
-}
+};
 
 // Задание 3
 function worker2(arr) {
