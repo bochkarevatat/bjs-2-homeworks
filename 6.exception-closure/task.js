@@ -3,7 +3,7 @@
 function parseCount(numberPars) {
     let num = parseInt(numberPars);
 
-    if (isNaN(num) == true) {
+    if (isNaN(num)) {
         throw new Error('Невалидное значение');
     };
     return num;
@@ -39,19 +39,20 @@ class Triangle {
     };
 
     getArea() {
-        let s = (this.a + this.b + this.c) / 2;
+        let s = (this.getPerimeter()) / 2;
         let area = +(Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c))).toFixed(3);
 
         return area;
     };
 
 
-    
+
 
 };
+
 function getTriangle(a, b, c) {
-        
-    
+
+
     try {
         let triangleNew = new Triangle(a, b, c);
         return triangleNew;
