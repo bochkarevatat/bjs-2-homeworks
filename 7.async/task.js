@@ -30,7 +30,7 @@ class AlarmClock {
 
         };
 
-        return this.alarmCollection;
+        // return this.alarmCollection;
     };
 
     removeClock(id) {
@@ -98,9 +98,10 @@ class AlarmClock {
     };
 
     printAlarms() {
-        this.alarmCollection.forEach((alarm) => {
+        this.alarmCollection.forEach(alarm => {
 
-            return alarm
+            console.log(`Будильник № ${alarm.id} заведен на ${alarm.time}`);
+            return alarm;
         });
 
     };
