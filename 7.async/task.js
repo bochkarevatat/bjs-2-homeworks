@@ -1,78 +1,115 @@
 class AlarmClock {
     constructor(alarmCollection, timerId) {
         this.alarmCollection = [],
-            this.timerId = timerId;
+            this.timerId = null;
 
     };
 
-   
+
     addClock(time, callback, id) {
-        
+
         this.time = time;
         this.callback = callback;
         this.id = id;
-        // this.id = setTimeout();
 
         let collectionAllarm = {
             time: this.time,
             callback: this.callback,
-            id : this.id,
+            id: this.id,
         };
-        
-            if (typeof(id) === "undefined") {   
+
+        if (typeof (id) === "undefined") {
             throw new Error('error text');
         };
-        
 
         if (this.alarmCollection.find(item => item.id === id)) {
             console.error('warning')
 
-        }else{
+        } else {
             this.alarmCollection.push(collectionAllarm)
 
         };
-        
-            return this.alarmCollection;
+
+        return this.alarmCollection;
     };
 
     removeClock(id) {
-        this.alarmCollection.filter(item => {
+        let start = this.alarmCollection.length;
+
+        this.alarmCollection = this.alarmCollection.filter(item => {
             if (item.id == id) {
                 clearTimeout(this.id);
-                return true;
-            };
-        });
 
-        
+            };
+
+        });
+        let finish = this.alarmCollection.length;
+        if (start > finish) {
+
+            return true;
+        } else {
+            return false;
+        };
+
+
     };
-    
+
     getCurrentFormattedTime(currentTime) {
 
         let nowTime = new Date();
         let hours = nowTime.getHours().toString();
         let minutes = nowTime.getMinutes().toString();
-        // this.currentTime = currentTime;
+
+
+        this.currentTime = currentTime;
+        if (hours.length < 2) {
+            this.currentTime = 0 + hours + ":" + minutes;
+        } else if (hours.length >= 2) {
+            this.currentTime = hours + ":" + minutes;
+        };
 
         if (minutes.length < 2) {
-            resultTime = hours + ":" + 0 + minutes;
-         }  else if (minutes.length >= 2) {
-            currentTime = hours + ":" + minutes;
-         };
-        return currentTime;
+            this.currentTime = hours + ":" + 0 + minutes;
+        } else if (minutes.length >= 2) {
+            this.currentTime = hours + ":" + minutes;
+        };
+
+        return this.currentTime;
     }
 
-    start(){
-        function checkClock(time){
-            if(this.currentTime === this.time){
-                callback() 
-            }
+    start() {
+        function checkClock(time) {
+            if (this.currentTime === this.time) {
+                this.collectionAllarm.callback.bind(time)();
+            };
+
+            if (isNaN(timerId)) {
+                this.id = setTimeout(callback, time, id, 1000);
+            };
+
+        };
+
+    };
+
+    stop() {
+        if (isNaN(this.timerId) !== NaN) {
+            clearInterval(this.timerId)
         }
+    };
 
-    }
+    printAlarms() {
+        this.alarmCollection.forEach((alarm) => {
+
+            return alarm
+        });
+
+    };
+
+    clearAlarms() {
+
+        this.stop();
+        this.alarmCollection = [];
+    };
+
 
 };
-
-
-
-
-
