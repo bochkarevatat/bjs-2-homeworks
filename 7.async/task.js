@@ -1,5 +1,5 @@
 class AlarmClock {
-    constructor(alarmCollection, timerId) {
+    constructor() {
         this.alarmCollection = [],
             this.timerId = null;
 
@@ -8,92 +8,69 @@ class AlarmClock {
 
     addClock(time, callback, id) {
 
-        this.time = time;
-        this.callback = callback;
-        this.id = id;
 
-        let collectionAllarm = {
-            time: this.time,
-            callback: this.callback,
-            id: this.id,
-        };
-
-        if (typeof (id) === "undefined") {
-            throw new Error('error text');
+        if (!id) {
+            throw new Error('Panic!!!');
         };
 
         if (this.alarmCollection.find(item => item.id === id)) {
             console.error('warning')
 
         } else {
-            this.alarmCollection.push(collectionAllarm)
-
+            this.alarmCollection.push({
+                id: id,
+                time: time,
+                callback: callback,
+            });
         };
 
-        // return this.alarmCollection;
+
     };
 
     removeClock(id) {
+
         let start = this.alarmCollection.length;
+        this.alarmCollection = this.alarmCollection.filter(item => item.id !== id);
 
-        this.alarmCollection = this.alarmCollection.filter(item => {
-            if (item.id == id) {
-                clearTimeout(this.id);
-
-            };
-
-        });
         let finish = this.alarmCollection.length;
-        if (start > finish) {
 
-            return true;
-        } else {
-            return false;
-        };
+
+        return start > finish ? true : false;
 
 
     };
 
-    getCurrentFormattedTime(currentTime) {
+    getCurrentFormattedTime() {
 
-        let nowTime = new Date();
-        let hours = nowTime.getHours().toString();
-        let minutes = nowTime.getMinutes().toString();
+        let nowTime = new Date().toLocaleTimeString("ru-Ru", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
 
-
-        this.currentTime = currentTime;
-        if (hours.length < 2) {
-            this.currentTime = 0 + hours + ":" + minutes;
-        } else if (hours.length >= 2) {
-            this.currentTime = hours + ":" + minutes;
-        };
-
-        if (minutes.length < 2) {
-            this.currentTime = hours + ":" + 0 + minutes;
-        } else if (minutes.length >= 2) {
-            this.currentTime = hours + ":" + minutes;
-        };
-
-        return this.currentTime;
+        return nowTime;
     }
 
+
+
     start() {
-        function checkClock(time) {
-            if (this.currentTime === this.time) {
-                this.collectionAllarm.callback.bind(time)();
-            };
 
-            if (isNaN(timerId)) {
-                this.id = setTimeout(callback, time, id, 1000);
-            };
-
-        };
+        function checkClock(array, currunetTime) {
+            array.forEach(item => {
+                if (item.time == currunetTime) {
+                    item.callback();
+                }
+            });
+        }
+        if (this.timerId === null) {
+            this.timerId = setInterval(() => checkClock(this.alarmCollection, this.getCurrentFormattedTime()), 1000);
+        }
 
     };
 
     stop() {
-        if (isNaN(this.timerId) !== NaN) {
-            clearInterval(this.timerId)
+        if (this.timerId !== null) {
+            clearInterval(this.timerId);
+            this.timerId = null;
         }
     };
 
@@ -101,7 +78,7 @@ class AlarmClock {
         this.alarmCollection.forEach(alarm => {
 
             console.log(`Будильник № ${alarm.id} заведен на ${alarm.time}`);
-            return alarm;
+
         });
 
     };
