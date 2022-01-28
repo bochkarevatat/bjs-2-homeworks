@@ -2,58 +2,80 @@ function cachingDecoratorNew(func) {
 
   let cache = [];
 
+
   function wrapper(...args) {
 
-    const hash = args.toString();
-    let idx = cache.findIndex((item) => item.hash === hash);
+    const hash = {};
+    hash.hash = args.toString();
+
+    let idx = cache.findIndex((item) => item.hash === hash.hash);
     // console.log(idx);
 
     if (idx !== -1) {
-      console.log("Из кэша: " + cache[hash]);
-      return "Из кэша: " + cache[hash];
-    } else {
-      let result = func(...args);
-      cache[hash] = result
-      cache.push({
-        hash
-      });
-      if (cache.length > 5) {
-        cache.shift();
-
-      }
-      console.log("Вычисляем: " + result);
-      return "Вычисляем: " + result;
+      console.log("Из кэша: " + cache[idx].value);
+      return "Из кэша: " + cache[idx].value;
     }
+    let result = func(...args);
+    hash.value = result
+    cache.push(hash);
 
 
+    if (cache.length > 5) {
+      cache.shift();
+
+    }
+    console.log("Вычисляем: " + result);
+    return "Вычисляем: " + result;
   }
+
+
   return wrapper;
 };
+
+
+
+
 
 
 function debounceDecoratorNew(func, ms) {
-  let timer;
-  return function (...args) {
 
-    const fnCall = () => {
-      func(args);
-    };
-    clearTimeout(timer);
-    timer = setTimeout(fnCall, ms)
-  };
-};
-
-function debounceDecorator2(func, ms) {
-  let timer;
+  let timer = false;
 
   function wrapper(...args) {
-    wrapper.count.push(args)
-    const fnCall = () => {
-      func.apply(...args)
-    };
-    clearTimeout(timer);
-    timer = setTimeout(fnCall, ms)
+    if (timer)
+      return;
+
+    func.apply(...args);
+
+    timer = true;
+
+    setTimeout(() => timer = false, ms);
   };
-  wrapper.count = [];
+  console.log(timer)
   return wrapper;
+};
+
+
+
+
+
+function debounceDecorator2(func, ms) {
+  let timer = false;
+
+  function wrapper(...args) {
+    if (timer)
+      return;
+
+    func.apply(...args);
+
+    timer = true;
+    wrapper.count = wrapper.count + 1;
+    setTimeout(() => timer = false, ms);
+    console.log(wrapper.count);
+  };
+
+  wrapper.count = 0;
+
+  return wrapper;
+
 };
