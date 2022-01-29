@@ -57,25 +57,26 @@ function debounceDecoratorNew(func, ms) {
 
 
 
+function debounceDecorator2(func, ms) {
 
+  let timer;
 
-// function debounceDecorator2(func, ms) {
-//   let timer = false;
+  function wrapper(...args) {
+    
+    if (!timer) {
+      func.apply(...args);
+      // console.log(timer)
+    }
+    clearTimeout(timer);
 
-//   function wrapper(...args) {
-//     if (timer)
-//       return;
+    timer = setTimeout(() => {
+      func.apply(...args);
+    }, ms);
+    // console.log(timer)
+    wrapper.count = wrapper.count + 1;
+    // console.log(wrapper.count);
+  };
+  wrapper.count = 0;
+  return wrapper;
+};
 
-//     func.apply(...args);
-
-//     timer = true;
-//     wrapper.count = wrapper.count + 1;
-//     setTimeout(() => timer = false, ms);
-//     console.log(wrapper.count);
-//   };
-
-//   wrapper.count = 0;
-
-//   return wrapper;
-
-// };
