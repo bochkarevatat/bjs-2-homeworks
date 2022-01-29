@@ -33,25 +33,25 @@ function cachingDecoratorNew(func) {
 };
 
 
-
-
-
-
 function debounceDecoratorNew(func, ms) {
 
-  let timer = false;
+  let timer;
 
   function wrapper(...args) {
-    if (timer)
-      return;
+    
+    if (!timer) {
+      func.apply(...args);
+      // console.log(timer)
+    }
+    clearTimeout(timer);
 
-    func.apply(...args);
+    timer = setTimeout(() => {
+      func.apply(...args);
+    }, ms);
+    // console.log(timer)
 
-    timer = true;
-
-    setTimeout(() => timer = false, ms);
   };
-  console.log(timer)
+  
   return wrapper;
 };
 
@@ -59,23 +59,23 @@ function debounceDecoratorNew(func, ms) {
 
 
 
-function debounceDecorator2(func, ms) {
-  let timer = false;
+// function debounceDecorator2(func, ms) {
+//   let timer = false;
 
-  function wrapper(...args) {
-    if (timer)
-      return;
+//   function wrapper(...args) {
+//     if (timer)
+//       return;
 
-    func.apply(...args);
+//     func.apply(...args);
 
-    timer = true;
-    wrapper.count = wrapper.count + 1;
-    setTimeout(() => timer = false, ms);
-    console.log(wrapper.count);
-  };
+//     timer = true;
+//     wrapper.count = wrapper.count + 1;
+//     setTimeout(() => timer = false, ms);
+//     console.log(wrapper.count);
+//   };
 
-  wrapper.count = 0;
+//   wrapper.count = 0;
 
-  return wrapper;
+//   return wrapper;
 
-};
+// };
